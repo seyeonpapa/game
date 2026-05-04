@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#FDF6EC">
+  <title>끝말잇기</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ============ 메인으로 버튼 (전역 고정) ============ -->
+  <a href="/" class="btn-home" title="메인으로">
+    <span class="home-icon">🏠</span>
+    <span class="home-text">메인으로</span>
+  </a>
+
+  <!-- ============ 시작 화면 ============ -->
+  <div id="screen-start" class="screen active">
+    <div class="start-container">
+      <div class="logo-area">
+        <div class="logo-icon">
+          <span class="logo-char char-1">끝</span>
+          <span class="logo-char char-2">말</span>
+          <span class="logo-char char-3">잇</span>
+          <span class="logo-char char-4">기</span>
+        </div>
+        <p class="logo-sub">단어의 마지막 글자로 이어가는 두뇌 게임</p>
+      </div>
+
+      <div class="menu-section">
+        <h2 class="menu-title">몇 명이서 할까요?</h2>
+        <div class="player-buttons">
+          <button class="btn-player" data-players="2" onclick="selectPlayers(2)">
+            <span class="btn-emoji">👥</span>
+            <span class="btn-label">2명</span>
+          </button>
+          <button class="btn-player" data-players="3" onclick="selectPlayers(3)">
+            <span class="btn-emoji">👥👤</span>
+            <span class="btn-label">3명</span>
+          </button>
+          <button class="btn-player" data-players="4" onclick="selectPlayers(4)">
+            <span class="btn-emoji">👥👥</span>
+            <span class="btn-label">4명</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 2인용 모드 선택 ============ -->
+  <div id="screen-mode" class="screen">
+    <div class="modal-container">
+      <button class="btn-back" onclick="goBack('screen-start')">&larr; 돌아가기</button>
+      <h2 class="modal-title">2인용 모드를 골라주세요</h2>
+      <div class="mode-buttons">
+        <button class="btn-mode" onclick="selectMode('pvp')">
+          <div class="mode-icon">🧑‍🤝‍🧑</div>
+          <div class="mode-label">사람 vs 사람</div>
+          <div class="mode-desc">친구나 가족과 함께!</div>
+        </button>
+        <button class="btn-mode" onclick="selectMode('pvc')">
+          <div class="mode-icon">🧑‍💻</div>
+          <div class="mode-label">사람 vs 컴퓨터</div>
+          <div class="mode-desc">AI와 대결하기</div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 난이도 선택 ============ -->
+  <div id="screen-difficulty" class="screen">
+    <div class="modal-container">
+      <button class="btn-back" onclick="goBack('screen-mode')">&larr; 돌아가기</button>
+      <h2 class="modal-title">컴퓨터 난이도를 골라주세요</h2>
+      <div class="difficulty-buttons">
+        <button class="btn-diff" onclick="selectDifficulty(1)">
+          <div class="diff-badge diff-1">Lv.1</div>
+          <div class="diff-label">초등학교 저학년</div>
+          <div class="diff-desc">쉬운 단어만 사용해요</div>
+        </button>
+        <button class="btn-diff" onclick="selectDifficulty(2)">
+          <div class="diff-badge diff-2">Lv.2</div>
+          <div class="diff-label">초등학교 고학년</div>
+          <div class="diff-desc">조금 더 어려운 단어도!</div>
+        </button>
+        <button class="btn-diff" onclick="selectDifficulty(3)">
+          <div class="diff-badge diff-3">Lv.3</div>
+          <div class="diff-label">중학생</div>
+          <div class="diff-desc">꽤 다양한 어휘력</div>
+        </button>
+        <button class="btn-diff" onclick="selectDifficulty(4)">
+          <div class="diff-badge diff-4">Lv.4</div>
+          <div class="diff-label">고등학생 이상</div>
+          <div class="diff-desc">전력을 다해 도전!</div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 이름 입력 ============ -->
+  <div id="screen-names" class="screen">
+    <div class="modal-container">
+      <button class="btn-back" onclick="goBackFromNames()">&larr; 돌아가기</button>
+      <h2 class="modal-title">이름을 입력해주세요</h2>
+      <div id="name-inputs" class="name-inputs"></div>
+      <button class="btn-start-game" onclick="startGame()">게임 시작!</button>
+    </div>
+  </div>
+
+  <!-- ============ 게임 화면 ============ -->
+  <div id="screen-game" class="screen">
+    <div class="game-container">
+      <!-- 상단 정보 -->
+      <div class="game-header">
+        <div class="game-title-small">끝말잇기</div>
+        <div class="round-info">
+          <span id="round-number">1</span>라운드
+        </div>
+        <button class="btn-quit" onclick="quitGame()">나가기</button>
+      </div>
+
+      <!-- 플레이어 상태바 -->
+      <div id="player-bar" class="player-bar"></div>
+
+      <!-- 현재 단어 표시 -->
+      <div class="word-display-area">
+        <div id="current-word-section" class="current-word-section">
+          <div class="current-word-label">이전 단어</div>
+          <div id="current-word" class="current-word">게임 시작!</div>
+          <div id="next-char-hint" class="next-char-hint"></div>
+        </div>
+      </div>
+
+      <!-- 단어 히스토리 -->
+      <div id="word-history" class="word-history">
+        <div class="history-label">사용된 단어</div>
+        <div id="history-words" class="history-words"></div>
+      </div>
+
+      <!-- 입력 영역 -->
+      <div id="input-area" class="input-area">
+        <div id="turn-indicator" class="turn-indicator"></div>
+        <div class="input-row">
+          <input type="text" id="word-input" class="word-input" placeholder="단어를 입력하세요..."
+            autocomplete="off" maxlength="10">
+          <button id="btn-submit" class="btn-submit" onclick="submitWord()">제출</button>
+        </div>
+        <div id="message-box" class="message-box"></div>
+        <div class="action-buttons">
+          <button id="btn-hint" class="btn-hint" onclick="useHint()">
+            <span class="hint-icon">💡</span>
+            <span>힌트</span>
+            <span id="hint-count" class="hint-count">3</span>
+          </button>
+          <button id="btn-giveup" class="btn-giveup" onclick="giveUp()">포기</button>
+        </div>
+      </div>
+
+      <!-- 컴퓨터 생각 중 표시 -->
+      <div id="computer-thinking" class="computer-thinking hidden">
+        <div class="thinking-dots">
+          <span>.</span><span>.</span><span>.</span>
+        </div>
+        <div class="thinking-text">컴퓨터가 생각 중이에요</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 결과 화면 ============ -->
+  <div id="screen-result" class="screen">
+    <div class="result-container">
+      <div id="result-crown" class="result-crown">👑</div>
+      <h2 id="result-title" class="result-title"></h2>
+      <div id="result-stats" class="result-stats"></div>
+      <div class="result-buttons">
+        <button class="btn-replay" onclick="location.reload()">다시 하기</button>
+        <button class="btn-replay" style="background:#7B8794;margin-left:8px" onclick="location.href='/'">메인으로</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="words.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

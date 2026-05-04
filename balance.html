@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#FFE4F1">
+  <title>밸런스 게임 - 구름냥의 게임세상</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="balance.css">
+</head>
+<body>
+
+  <!-- 메인으로 버튼 -->
+  <a href="/" class="btn-home" title="메인으로">
+    <span class="home-icon">🏠</span>
+    <span class="home-text">메인으로</span>
+  </a>
+
+  <!-- ============ 시작 화면 ============ -->
+  <div id="screen-start" class="screen active">
+    <div class="start-container">
+      <div class="logo-area">
+        <div class="logo-emoji">⚖️</div>
+        <h1 class="logo-title">밸런스 게임</h1>
+        <p class="logo-sub">~ 둘 중에 뭐가 더 좋아? ~</p>
+      </div>
+
+      <div class="menu-section">
+        <h2 class="menu-title">몇 문제 풀어볼까요?</h2>
+        <div class="count-buttons">
+          <button class="btn-count" onclick="startGame(5)">
+            <span class="count-num">5</span>
+            <span class="count-label">짧게 ~</span>
+          </button>
+          <button class="btn-count featured" onclick="startGame(10)">
+            <span class="count-num">10</span>
+            <span class="count-label">딱 좋아!</span>
+            <span class="count-badge">추천</span>
+          </button>
+          <button class="btn-count" onclick="startGame(20)">
+            <span class="count-num">20</span>
+            <span class="count-label">많이 ~</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 게임 화면 ============ -->
+  <div id="screen-game" class="screen">
+    <div class="game-container">
+      <!-- 진행도 -->
+      <div class="game-header">
+        <div class="progress-info">
+          <span class="progress-current" id="progress-current">1</span>
+          <span class="progress-divider">/</span>
+          <span class="progress-total" id="progress-total">10</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+
+      <!-- 질문 -->
+      <h2 class="question-title">어느 쪽이 더 좋아? 🤔</h2>
+
+      <!-- 카드 영역 -->
+      <div class="cards-area">
+        <button class="choice-card card-left" id="card-left" onclick="select('left')">
+          <span class="card-emoji" id="emoji-left"></span>
+          <span class="card-text" id="text-left"></span>
+          <span class="card-check">✓</span>
+        </button>
+
+        <div class="vs-divider">
+          <span class="vs-text">VS</span>
+        </div>
+
+        <button class="choice-card card-right" id="card-right" onclick="select('right')">
+          <span class="card-emoji" id="emoji-right"></span>
+          <span class="card-text" id="text-right"></span>
+          <span class="card-check">✓</span>
+        </button>
+      </div>
+
+      <p class="hint-text">고르고 싶은 카드를 눌러봐!</p>
+    </div>
+  </div>
+
+  <!-- ============ 결과 화면 ============ -->
+  <div id="screen-result" class="screen">
+    <div class="result-container">
+      <div class="result-emoji" id="result-emoji">🎉</div>
+      <h2 class="result-title" id="result-title">다 풀었어요!</h2>
+      <p class="result-sub" id="result-sub">내가 고른 것들이에요 ♥</p>
+
+      <div class="result-traits" id="result-traits"></div>
+
+      <div class="result-divider">
+        <span>내가 고른 답들 ♥</span>
+      </div>
+
+      <div class="result-list" id="result-list"></div>
+
+      <div class="result-buttons">
+        <button class="btn-replay" onclick="restartGame()">다시 하기</button>
+        <button class="btn-home-result" onclick="location.href='/'">메인으로</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="balance.js"></script>
+</body>
+</html>

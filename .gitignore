@@ -1,0 +1,26 @@
+# 사전 원본 파일 (789MB - GitHub 업로드 불가)
+전체 내려받기_표준국어대사전_*/
+
+# Node modules
+node_modules/
+
+# 환경변수 파일
+.env
+.env.local
+
+# OS 파일
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# 로컬 서버 로그
+*.log
+
+# Netlify 로컬 빌드
+.netlify/
+
+# Claude Code 로컬 설정
+.claude/
