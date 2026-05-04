@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFE4F1"/>
+      <stop offset="1" stop-color="#C5E8FF"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#FF82B4" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- 배경: 둥근 사각형에 그라디언트 -->
+  <rect width="512" height="512" rx="110" fill="url(#bg)"/>
+
+  <!-- 장식 구름들 -->
+  <g opacity="0.55" fill="white">
+    <ellipse cx="85" cy="100" rx="35" ry="11"/>
+    <ellipse cx="100" cy="93" rx="20" ry="13"/>
+    <ellipse cx="425" cy="430" rx="30" ry="9"/>
+    <ellipse cx="438" cy="423" rx="17" ry="11"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <!-- 귀 (몸 뒤) -->
+    <path d="M 155 165 L 200 265 L 110 265 Z" fill="white"/>
+    <path d="M 357 165 L 402 265 L 312 265 Z" fill="white"/>
+
+    <!-- 몸통 (구름 모양 - 원 여러 개로 구성) -->
+    <circle cx="170" cy="290" r="68" fill="white"/>
+    <circle cx="342" cy="290" r="68" fill="white"/>
+    <circle cx="256" cy="265" r="92" fill="white"/>
+    <ellipse cx="256" cy="350" rx="180" ry="105" fill="white"/>
+  </g>
+
+  <!-- 귀 안쪽 (분홍) -->
+  <path d="M 155 215 L 180 263 L 130 263 Z" fill="#FFB6C8"/>
+  <path d="M 357 215 L 382 263 L 332 263 Z" fill="#FFB6C8"/>
+
+  <!-- 눈 -->
+  <ellipse cx="208" cy="295" rx="15" ry="22" fill="#2C1810"/>
+  <ellipse cx="304" cy="295" rx="15" ry="22" fill="#2C1810"/>
+  <!-- 눈 반짝임 -->
+  <circle cx="213" cy="288" r="5" fill="white"/>
+  <circle cx="309" cy="288" r="5" fill="white"/>
+
+  <!-- 볼터치 -->
+  <ellipse cx="158" cy="345" rx="26" ry="16" fill="#FFB6C8" opacity="0.75"/>
+  <ellipse cx="354" cy="345" rx="26" ry="16" fill="#FFB6C8" opacity="0.75"/>
+
+  <!-- 코 -->
+  <path d="M 242 342 L 270 342 L 256 360 Z" fill="#FFB6C8"/>
+
+  <!-- 입 -->
+  <path d="M 256 360 Q 240 380 226 372" stroke="#2C1810" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 256 360 Q 272 380 286 372" stroke="#2C1810" stroke-width="4" fill="none" stroke-linecap="round"/>
+</svg>

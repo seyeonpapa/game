@@ -1,0 +1,19 @@
+{
+  "name": "구름냥의 게임세상",
+  "short_name": "구름냥",
+  "description": "끝말잇기, 밸런스 게임 등 구름냥과 함께 즐기는 게임 모음",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFE4F1",
+  "theme_color": "#FFE4F1",
+  "lang": "ko",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
