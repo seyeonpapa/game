@@ -5,14 +5,25 @@ const path = require('path');
 const url = require('url');
 
 const PORT = 8080;
-// 로컬 개발용: 환경변수에서 읽기, 없으면 .env.local 파일에서 읽기
-const API_KEY = process.env.STDICT_API_KEY || require('fs').existsSync('.env.local')
-  ? require('fs').readFileSync('.env.local', 'utf8').match(/STDICT_API_KEY=(.+)/)?.[1]?.trim()
-  : null;
 const API_HOST = 'stdict.korean.go.kr';
 
+// API 키 로드: 환경변수 우선, 없으면 .env.local 파일에서 읽기
+function loadApiKey() {
+  if (process.env.STDICT_API_KEY) return process.env.STDICT_API_KEY;
+  const envPath = path.join(__dirname, '.env.local');
+  if (fs.existsSync(envPath)) {
+    const content = fs.readFileSync(envPath, 'utf8');
+    const match = content.match(/STDICT_API_KEY=(.+)/);
+    if (match) return match[1].trim();
+  }
+  return null;
+}
+
+const API_KEY = loadApiKey();
+
 if (!API_KEY) {
-  console.error('⚠️  API 키가 없습니다! .env.local 파일에 STDICT_API_KEY=xxx 추가하세요.');
+  console.error('⚠️  API 키가 없습니다!');
+  console.error('   .env.local 파일에 STDICT_API_KEY=xxx 형식으로 추가하세요.');
   process.exit(1);
 }
 

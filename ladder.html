@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="구름냥">
+  <meta name="theme-color" content="#FFE4F1">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <link rel="apple-touch-icon" href="/icon.svg">
+  <title>사다리 게임 - 구름냥의 게임세상</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="ladder.css">
+</head>
+<body>
+
+  <a href="/" class="btn-home" title="메인으로">
+    <span class="home-icon">🏠</span>
+    <span class="home-text">메인으로</span>
+  </a>
+
+  <!-- ============ 설정 화면 ============ -->
+  <div id="screen-setup" class="screen active">
+    <div class="setup-container">
+      <div class="logo-area">
+        <div class="logo-emoji">🪜</div>
+        <h1 class="logo-title">사다리 게임</h1>
+        <p class="logo-sub">~ 누가 당첨될까냥? ~</p>
+      </div>
+
+      <!-- 인원 선택 -->
+      <div class="count-section">
+        <div class="count-label">인원수</div>
+        <div class="count-picker">
+          <button class="count-btn" data-n="2" onclick="setPlayerCount(2)">2</button>
+          <button class="count-btn" data-n="3" onclick="setPlayerCount(3)">3</button>
+          <button class="count-btn active" data-n="4" onclick="setPlayerCount(4)">4</button>
+          <button class="count-btn" data-n="5" onclick="setPlayerCount(5)">5</button>
+          <button class="count-btn" data-n="6" onclick="setPlayerCount(6)">6</button>
+          <button class="count-btn" data-n="7" onclick="setPlayerCount(7)">7</button>
+          <button class="count-btn" data-n="8" onclick="setPlayerCount(8)">8</button>
+        </div>
+      </div>
+
+      <!-- 참가자 입력 -->
+      <div class="input-section">
+        <div class="section-title">
+          <span class="title-icon">👤</span>
+          <span>참가자 이름</span>
+        </div>
+        <div class="input-grid" id="player-inputs"></div>
+      </div>
+
+      <!-- 결과 입력 -->
+      <div class="input-section">
+        <div class="section-title">
+          <span class="title-icon">🎁</span>
+          <span>결과</span>
+        </div>
+        <div class="quick-buttons">
+          <button class="quick-btn" onclick="fillResults('order')">📋 순서</button>
+          <button class="quick-btn" onclick="fillResults('winner')">🎉 당첨</button>
+          <button class="quick-btn" onclick="fillResults('clear')">🧹 지우기</button>
+        </div>
+        <div class="input-grid" id="result-inputs"></div>
+      </div>
+
+      <button class="btn-start-game" onclick="startGame()">사다리 만들기!</button>
+    </div>
+  </div>
+
+  <!-- ============ 게임 화면 ============ -->
+  <div id="screen-game" class="screen">
+    <div class="game-container">
+      <div class="game-header">
+        <button class="btn-back-game" onclick="goBackToSetup()">&larr; 다시 설정</button>
+        <button class="btn-shuffle" onclick="shuffleAndRedraw()">🔀 다시 섞기</button>
+      </div>
+
+      <!-- 참가자 (위) -->
+      <div class="players-row" id="players-row"></div>
+
+      <!-- 사다리 -->
+      <div class="ladder-area">
+        <svg id="ladder-svg" class="ladder-svg" preserveAspectRatio="none"></svg>
+      </div>
+
+      <!-- 결과 (아래) -->
+      <div class="results-row" id="results-row"></div>
+
+      <!-- 액션 -->
+      <div class="action-buttons">
+        <button class="btn-action btn-show-all" id="btn-show-all" onclick="showAllPaths()">
+          🎯 전체 결과 보기
+        </button>
+        <button class="btn-action btn-reset-paths" onclick="resetPaths()">
+          🔄 초기화
+        </button>
+      </div>
+
+      <p class="hint-msg">참가자 이름을 누르면 결과가 보여요!</p>
+    </div>
+  </div>
+
+  <script src="ladder.js"></script>
+</body>
+</html>

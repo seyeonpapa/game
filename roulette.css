@@ -1,0 +1,616 @@
+/* ===== Reset & Base ===== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-pink: #FFE4F1;
+  --bg-blue: #C5E8FF;
+  --card: #FFFFFF;
+  --card-shadow: 0 8px 24px rgba(180, 200, 230, 0.35);
+
+  --primary: #FF6B9D;
+  --primary-light: #FFB6C8;
+  --primary-dark: #E04F85;
+  --secondary: #5BA8E0;
+  --secondary-light: #B5DDFF;
+  --accent: #FFD93D;
+  --mint: #A8E6CF;
+  --lavender: #C8B6FF;
+
+  --text: #2C3E50;
+  --text-light: #6B8AAA;
+  --text-muted: #A8B5C5;
+  --border: #E5EEF7;
+}
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: linear-gradient(180deg, var(--bg-pink) 0%, var(--bg-blue) 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+/* 배경 구름 */
+body::before, body::after {
+  content: '';
+  position: fixed;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 100px;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(2px);
+}
+body::before {
+  width: 100px; height: 30px;
+  top: 8%; left: 5%;
+  box-shadow:
+    20px -15px 0 -2px rgba(255,255,255,0.5),
+    50px -8px 0 0 rgba(255,255,255,0.5);
+  animation: cloudFloat 25s ease-in-out infinite;
+}
+body::after {
+  width: 80px; height: 25px;
+  bottom: 12%; right: 6%;
+  box-shadow:
+    18px -12px 0 -2px rgba(255,255,255,0.5),
+    40px -6px 0 0 rgba(255,255,255,0.5);
+  animation: cloudFloat 30s ease-in-out infinite reverse;
+}
+
+@keyframes cloudFloat {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-20px) translateX(15px); }
+}
+
+/* 메인으로 버튼 */
+.btn-home {
+  position: fixed;
+  top: max(1rem, env(safe-area-inset-top));
+  left: 1rem;
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.5rem 1rem 0.5rem 0.8rem;
+  background: var(--card);
+  border-radius: 24px;
+  color: var(--text);
+  text-decoration: none;
+  font-family: 'Jua', sans-serif;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 14px rgba(180, 200, 230, 0.4);
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.btn-home:hover {
+  border-color: var(--primary-light);
+  background: #FFF5F8;
+  transform: translateY(-2px);
+}
+
+.home-icon { font-size: 1.05rem; }
+
+body:has(#screen-game.active) .btn-home {
+  display: none;
+}
+
+/* Screens */
+.screen {
+  display: none;
+  min-height: 100dvh;
+  position: relative;
+  z-index: 1;
+  animation: fadeIn 0.4s ease;
+}
+
+.screen.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== 시작 화면 (입력) ===== */
+.start-container {
+  text-align: center;
+  padding: max(3rem, env(safe-area-inset-top)) 1.2rem max(2rem, env(safe-area-inset-bottom));
+  width: 100%;
+  max-width: 520px;
+}
+
+.logo-area {
+  margin-bottom: 2rem;
+}
+
+.logo-emoji {
+  font-size: 5rem;
+  display: inline-block;
+  animation: spinSlow 8s linear infinite;
+  margin-bottom: 0.3rem;
+}
+
+@keyframes spinSlow {
+  to { transform: rotate(360deg); }
+}
+
+.logo-title {
+  font-family: 'Jua', sans-serif;
+  font-size: 2.8rem;
+  color: var(--lavender);
+  letter-spacing: -0.02em;
+  text-shadow: 3px 3px 0 white, 4px 4px 0 rgba(200, 182, 255, 0.4);
+  margin-bottom: 0.3rem;
+}
+
+.logo-sub {
+  font-family: 'Gaegu', cursive;
+  font-size: 1.2rem;
+  color: var(--text-light);
+  font-weight: 700;
+}
+
+/* 입력 섹션 */
+.input-section {
+  background: var(--card);
+  border-radius: 28px;
+  padding: 1.6rem 1.4rem;
+  box-shadow: var(--card-shadow);
+  text-align: left;
+}
+
+.input-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+
+.input-title {
+  font-family: 'Jua', sans-serif;
+  font-size: 1.15rem;
+  color: var(--text);
+}
+
+.input-counter {
+  font-family: 'Gaegu', cursive;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.input-counter.full {
+  color: var(--primary);
+}
+
+.input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 0.8rem;
+}
+
+.item-input {
+  flex: 1;
+  padding: 0.8rem 1rem;
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  font-size: 1rem;
+  font-family: 'Noto Sans KR', sans-serif;
+  outline: none;
+  transition: all 0.2s;
+  background: #FAFCFF;
+  color: var(--text);
+}
+
+.item-input:focus {
+  border-color: var(--primary);
+  background: white;
+  box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.1);
+}
+
+.item-input:disabled {
+  background: #f0f0f0;
+  cursor: not-allowed;
+}
+
+.btn-add {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-family: 'Jua', sans-serif;
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(255, 107, 157, 0.3);
+  flex-shrink: 0;
+}
+
+.btn-add:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 107, 157, 0.4);
+}
+
+.btn-add:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* 항목 리스트 */
+.items-list {
+  min-height: 80px;
+  background: #FAFCFF;
+  border-radius: 14px;
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  border: 2px dashed var(--border);
+}
+
+.empty-msg {
+  width: 100%;
+  text-align: center;
+  font-family: 'Gaegu', cursive;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  padding: 0.5rem;
+}
+
+.item-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.4rem 0.4rem 0.4rem 0.8rem;
+  border-radius: 16px;
+  font-family: 'Jua', sans-serif;
+  font-size: 0.95rem;
+  color: white;
+  animation: chipIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+@keyframes chipIn {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.item-chip-remove {
+  width: 22px;
+  height: 22px;
+  background: rgba(255,255,255,0.3);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+  transition: background 0.15s;
+}
+
+.item-chip-remove:hover {
+  background: rgba(255,255,255,0.5);
+}
+
+/* 빠른 예시 */
+.quick-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.presets-label {
+  font-family: 'Gaegu', cursive;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.preset-chip {
+  background: #FAFCFF;
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  padding: 0.35rem 0.7rem;
+  font-family: 'Jua', sans-serif;
+  font-size: 0.85rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.preset-chip:hover {
+  border-color: var(--primary-light);
+  background: #FFF5F8;
+}
+
+/* 시작 버튼 */
+.btn-start-game {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  font-family: 'Jua', sans-serif;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 6px 16px rgba(255, 107, 157, 0.3);
+}
+
+.btn-start-game:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 107, 157, 0.4);
+}
+
+.btn-start-game:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ===== 룰렛 화면 ===== */
+#screen-game.active {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.game-container {
+  max-width: 520px;
+  width: 100%;
+  margin: 0 auto;
+  padding: max(1rem, env(safe-area-inset-top)) 1rem max(1rem, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.game-header {
+  margin-bottom: 1rem;
+}
+
+.btn-back-game {
+  background: var(--card);
+  border: 2px solid transparent;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-family: 'Gaegu', cursive;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 3px 10px rgba(180, 200, 230, 0.3);
+}
+
+.btn-back-game:hover {
+  border-color: var(--primary-light);
+  color: var(--primary);
+  background: #FFF5F8;
+}
+
+/* 룰렛 영역 */
+.wheel-area {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem auto 1.5rem;
+  width: 100%;
+  max-width: 380px;
+  aspect-ratio: 1;
+}
+
+/* 포인터 (위쪽 화살표) */
+.pointer {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  filter: drop-shadow(0 4px 8px rgba(255, 107, 157, 0.4));
+}
+
+.pointer-inner {
+  width: 0;
+  height: 0;
+  border-left: 22px solid transparent;
+  border-right: 22px solid transparent;
+  border-top: 36px solid var(--primary);
+  position: relative;
+}
+
+.pointer-inner::after {
+  content: '';
+  position: absolute;
+  top: -36px;
+  left: -10px;
+  width: 20px;
+  height: 20px;
+  background: var(--primary);
+  border-radius: 50%;
+  border: 4px solid white;
+  box-shadow: 0 2px 6px rgba(255, 107, 157, 0.4);
+}
+
+/* 휠 자체 */
+.wheel-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wheel {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 8px 24px rgba(180, 200, 230, 0.45));
+  transition: transform 4.5s cubic-bezier(0.17, 0.67, 0.21, 0.99);
+  transform-origin: center;
+  border-radius: 50%;
+  background: white;
+}
+
+.wheel-center {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 5px solid var(--accent);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 5;
+}
+
+.wheel-center-emoji {
+  font-size: 1.6rem;
+}
+
+/* 돌리기 버튼 */
+.btn-spin {
+  padding: 1.1rem 2rem;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  border: none;
+  border-radius: 24px;
+  font-family: 'Jua', sans-serif;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 8px 20px rgba(255, 107, 157, 0.4);
+  margin: 0 auto;
+  width: 100%;
+  max-width: 280px;
+}
+
+.btn-spin:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(255, 107, 157, 0.5);
+}
+
+.btn-spin:active:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn-spin:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.spin-text { display: inline-block; }
+
+/* 결과 표시 */
+.result-display {
+  margin-top: 1.5rem;
+  text-align: center;
+  min-height: 80px;
+}
+
+.result-display.show {
+  animation: resultPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes resultPop {
+  0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+  60% { transform: scale(1.1) rotate(3deg); }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+.result-card {
+  background: white;
+  border-radius: 24px;
+  padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.result-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+}
+
+.result-label {
+  font-family: 'Gaegu', cursive;
+  font-size: 1rem;
+  color: var(--text-light);
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.result-text {
+  font-family: 'Jua', sans-serif;
+  font-size: 2rem;
+  color: var(--text);
+  word-break: keep-all;
+}
+
+/* 컨페티 효과 */
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  z-index: 1000;
+  animation: confettiFall 2.5s ease-in forwards;
+}
+
+@keyframes confettiFall {
+  to {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* 모바일 */
+@media (max-width: 480px) {
+  .logo-emoji { font-size: 4rem; }
+  .logo-title { font-size: 2.2rem; }
+  .input-section { padding: 1.3rem 1.1rem; }
+  .wheel-area { max-width: 92vw; }
+  .pointer-inner {
+    border-left-width: 18px;
+    border-right-width: 18px;
+    border-top: 32px solid var(--primary);
+  }
+  .wheel-center { width: 50px; height: 50px; }
+  .wheel-center-emoji { font-size: 1.4rem; }
+  .btn-spin { font-size: 1.3rem; padding: 1rem 1.5rem; }
+  .result-text { font-size: 1.6rem; }
+}

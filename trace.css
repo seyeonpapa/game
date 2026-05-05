@@ -1,0 +1,476 @@
+/* ===== Reset & Base ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-pink: #FFE4F1;
+  --bg-blue: #C5E8FF;
+  --card: #FFFFFF;
+  --card-shadow: 0 8px 24px rgba(180, 200, 230, 0.35);
+  --primary: #FF6B9D;
+  --primary-light: #FFB6C8;
+  --primary-dark: #E04F85;
+  --secondary: #5BA8E0;
+  --accent: #FFD93D;
+  --mint: #A8E6CF;
+  --lavender: #C8B6FF;
+  --text: #2C3E50;
+  --text-light: #6B8AAA;
+  --text-muted: #A8B5C5;
+  --border: #E5EEF7;
+}
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: linear-gradient(180deg, var(--bg-pink) 0%, var(--bg-blue) 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  /* 그릴 때 페이지 스크롤/줌 방지 */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+body::before, body::after {
+  content: '';
+  position: fixed;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 100px;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(2px);
+}
+body::before {
+  width: 100px; height: 30px;
+  top: 8%; left: 5%;
+  box-shadow: 20px -15px 0 -2px rgba(255,255,255,0.5), 50px -8px 0 0 rgba(255,255,255,0.5);
+  animation: cloudFloat 25s ease-in-out infinite;
+}
+body::after {
+  width: 80px; height: 25px;
+  bottom: 12%; right: 6%;
+  box-shadow: 18px -12px 0 -2px rgba(255,255,255,0.5), 40px -6px 0 0 rgba(255,255,255,0.5);
+  animation: cloudFloat 30s ease-in-out infinite reverse;
+}
+@keyframes cloudFloat {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-20px) translateX(15px); }
+}
+
+.btn-home {
+  position: fixed;
+  top: max(1rem, env(safe-area-inset-top));
+  left: 1rem;
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.5rem 1rem 0.5rem 0.8rem;
+  background: var(--card);
+  border-radius: 24px;
+  color: var(--text);
+  text-decoration: none;
+  font-family: 'Jua', sans-serif;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 14px rgba(180, 200, 230, 0.4);
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+.btn-home:hover {
+  border-color: var(--primary-light);
+  background: #FFF5F8;
+  transform: translateY(-2px);
+}
+.home-icon { font-size: 1.05rem; }
+
+body:has(#screen-game.active) .btn-home,
+body:has(#screen-result.active) .btn-home {
+  display: none;
+}
+
+.screen {
+  display: none;
+  min-height: 100dvh;
+  position: relative;
+  z-index: 1;
+  animation: fadeIn 0.4s ease;
+}
+.screen.active {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== 시작 화면 ===== */
+.start-container {
+  width: 100%;
+  max-width: 540px;
+  padding: max(3rem, env(safe-area-inset-top)) 1.2rem max(2rem, env(safe-area-inset-bottom));
+  text-align: center;
+}
+
+.logo-area { margin-bottom: 1.5rem; }
+
+.logo-emoji {
+  font-size: 4.5rem;
+  display: inline-block;
+  animation: pencilWiggle 3s ease-in-out infinite;
+  margin-bottom: 0.3rem;
+}
+@keyframes pencilWiggle {
+  0%, 100% { transform: rotate(-15deg); }
+  50% { transform: rotate(15deg); }
+}
+
+.logo-title {
+  font-family: 'Jua', sans-serif;
+  font-size: 2.5rem;
+  color: var(--secondary);
+  text-shadow: 3px 3px 0 white, 4px 4px 0 rgba(91, 168, 224, 0.3);
+  margin-bottom: 0.2rem;
+}
+
+.logo-sub {
+  font-family: 'Gaegu', cursive;
+  font-size: 1.1rem;
+  color: var(--text-light);
+  font-weight: 700;
+}
+
+.menu-title {
+  font-family: 'Jua', sans-serif;
+  font-size: 1.3rem;
+  color: var(--text);
+  margin-bottom: 1.2rem;
+  text-shadow: 2px 2px 0 white;
+}
+
+.shape-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.shape-card {
+  background: var(--card);
+  border: 3px solid transparent;
+  border-radius: 20px;
+  padding: 1.2rem 0.6rem;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  box-shadow: var(--card-shadow);
+}
+
+.shape-card:hover {
+  border-color: var(--primary-light);
+  transform: translateY(-4px) rotate(-1deg);
+}
+
+.shape-card-svg {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 0.3rem;
+}
+
+.shape-card-name {
+  font-family: 'Jua', sans-serif;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+/* ===== 게임 화면 ===== */
+#screen-game.active {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.game-container {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: max(1rem, env(safe-area-inset-top)) 1rem max(1rem, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.btn-back-game {
+  background: var(--card);
+  border: 2px solid transparent;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-family: 'Gaegu', cursive;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 3px 10px rgba(180, 200, 230, 0.3);
+}
+.btn-back-game:hover {
+  border-color: var(--primary-light);
+  color: var(--primary);
+  background: #FFF5F8;
+}
+
+.shape-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--card);
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+  font-family: 'Jua', sans-serif;
+  font-size: 1rem;
+  color: var(--text);
+  box-shadow: 0 3px 10px rgba(180, 200, 230, 0.3);
+}
+
+.shape-info span:first-child { font-size: 1.2rem; }
+
+.game-hint {
+  text-align: center;
+  font-family: 'Gaegu', cursive;
+  font-size: 1rem;
+  color: var(--text-light);
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+}
+
+.canvas-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 480px;
+  margin: 0 auto 1rem;
+  background: white;
+  border-radius: 24px;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  border: 3px solid white;
+}
+
+#canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.game-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.btn-game-action {
+  flex: 1;
+  padding: 0.85rem;
+  border: none;
+  border-radius: 16px;
+  font-family: 'Jua', sans-serif;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-clear {
+  background: var(--card);
+  color: var(--text-light);
+  border: 2px solid var(--border);
+}
+
+.btn-clear:hover {
+  border-color: var(--secondary);
+  color: var(--secondary);
+  background: #F0F8FF;
+}
+
+.btn-done {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 107, 157, 0.3);
+}
+
+.btn-done:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 107, 157, 0.4);
+}
+
+.btn-done:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ===== 결과 화면 ===== */
+.result-container {
+  text-align: center;
+  width: 92%;
+  max-width: 460px;
+  background: var(--card);
+  border-radius: 28px;
+  padding: 2rem 1.5rem;
+  margin: 1.5rem auto;
+  box-shadow: var(--card-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.result-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary), var(--lavender));
+}
+
+.result-emoji {
+  font-size: 4rem;
+  animation: bounce 1.2s ease infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(8deg); }
+}
+
+.score-circle {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  margin: 0.5rem auto 1rem;
+}
+
+.score-ring {
+  width: 100%;
+  height: 100%;
+}
+
+#score-progress {
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.score-number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Jua', sans-serif;
+  font-size: 3rem;
+  color: var(--primary);
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.score-number::after {
+  content: '점';
+  font-size: 1.2rem;
+  color: var(--text-light);
+}
+
+.result-title {
+  font-family: 'Jua', sans-serif;
+  font-size: 1.7rem;
+  color: var(--text);
+  margin: 0.5rem 0 0.3rem;
+}
+
+.result-sub {
+  font-family: 'Gaegu', cursive;
+  font-size: 1.05rem;
+  color: var(--text-light);
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+}
+
+.result-preview {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto 1.5rem;
+  background: white;
+  border-radius: 16px;
+  border: 2px solid var(--border);
+  overflow: hidden;
+}
+
+.result-preview canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.result-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-replay,
+.btn-other {
+  padding: 0.85rem 1.4rem;
+  border: none;
+  border-radius: 18px;
+  font-family: 'Jua', sans-serif;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-replay {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 107, 157, 0.3);
+}
+
+.btn-replay:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 107, 157, 0.4);
+}
+
+.btn-other {
+  background: var(--card);
+  color: var(--text-light);
+  border: 2px solid var(--border);
+}
+
+.btn-other:hover {
+  border-color: var(--secondary);
+  color: var(--secondary);
+  background: #F0F8FF;
+}
+
+/* 모바일 */
+@media (max-width: 480px) {
+  .logo-emoji { font-size: 4rem; }
+  .logo-title { font-size: 2.1rem; }
+  .shape-card-svg { width: 50px; height: 50px; }
+  .shape-card-name { font-size: 0.9rem; }
+  .canvas-wrapper { border-radius: 18px; }
+  .score-circle { width: 140px; height: 140px; }
+  .score-number { font-size: 2.6rem; }
+}

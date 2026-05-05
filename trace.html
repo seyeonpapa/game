@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="구름냥">
+  <meta name="theme-color" content="#FFE4F1">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <link rel="apple-touch-icon" href="/icon.svg">
+  <title>따라그리기 - 구름냥의 게임세상</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="trace.css">
+</head>
+<body>
+
+  <a href="/" class="btn-home" title="메인으로">
+    <span class="home-icon">🏠</span>
+    <span class="home-text">메인으로</span>
+  </a>
+
+  <!-- ============ 시작 화면 (모양 선택) ============ -->
+  <div id="screen-start" class="screen active">
+    <div class="start-container">
+      <div class="logo-area">
+        <div class="logo-emoji">✏️</div>
+        <h1 class="logo-title">따라그리기</h1>
+        <p class="logo-sub">~ 흐린 모양을 따라 그려봐 ~</p>
+      </div>
+
+      <h2 class="menu-title">어떤 모양 그릴까요?</h2>
+      <div class="shape-grid" id="shape-grid"></div>
+    </div>
+  </div>
+
+  <!-- ============ 게임 화면 ============ -->
+  <div id="screen-game" class="screen">
+    <div class="game-container">
+      <div class="game-header">
+        <button class="btn-back-game" onclick="goBackToShapes()">&larr; 모양 선택</button>
+        <div class="shape-info">
+          <span id="game-shape-emoji">❤️</span>
+          <span id="game-shape-name">하트</span>
+        </div>
+      </div>
+
+      <p class="game-hint">손가락이나 마우스로 모양을 따라 그려봐요!</p>
+
+      <div class="canvas-wrapper">
+        <canvas id="canvas"></canvas>
+      </div>
+
+      <div class="game-actions">
+        <button class="btn-game-action btn-clear" onclick="clearDrawing()">
+          🧹 지우기
+        </button>
+        <button class="btn-game-action btn-done" onclick="finishDrawing()">
+          ✨ 완성!
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 결과 화면 ============ -->
+  <div id="screen-result" class="screen">
+    <div class="result-container">
+      <div class="result-emoji" id="result-emoji">🌟</div>
+      <div class="score-circle">
+        <svg class="score-ring" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="54" stroke="#F0F4F8" stroke-width="10" fill="none"/>
+          <circle id="score-progress" cx="60" cy="60" r="54" stroke="url(#scoreGrad)" stroke-width="10" fill="none"
+            stroke-linecap="round" transform="rotate(-90 60 60)"
+            stroke-dasharray="339.292" stroke-dashoffset="339.292"/>
+          <defs>
+            <linearGradient id="scoreGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#FF6B9D"/>
+              <stop offset="1" stop-color="#5BA8E0"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="score-number" id="score-number">0</div>
+      </div>
+      <h2 class="result-title" id="result-title"></h2>
+      <p class="result-sub" id="result-sub"></p>
+
+      <div class="result-preview">
+        <canvas id="preview-canvas"></canvas>
+      </div>
+
+      <div class="result-buttons">
+        <button class="btn-replay" onclick="retryShape()">다시 그리기</button>
+        <button class="btn-other" onclick="goBackToShapes()">다른 모양</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="trace.js"></script>
+</body>
+</html>
