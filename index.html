@@ -25,12 +25,13 @@
 
     body {
       background: linear-gradient(180deg, #FFE4F1 0%, #C5E8FF 50%, #B5DDFF 100%);
+      background-attachment: fixed;
       position: relative;
       min-height: 100dvh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       padding: max(2rem, env(safe-area-inset-top)) 1rem max(2rem, env(safe-area-inset-bottom));
     }
 
@@ -112,8 +113,13 @@
     /* 헤더 */
     .header {
       text-align: center;
-      margin-bottom: 2.5rem;
+      margin: 1rem 0 2rem;
       z-index: 2;
+    }
+
+    .footer-msg {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
     }
 
     .mascot {
