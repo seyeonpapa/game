@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="구름냥">
+  <meta name="theme-color" content="#FFE4F1">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <link rel="apple-touch-icon" href="/icon.svg">
+  <title>영어 단어 게임 - 구름냥의 게임세상</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="english.css">
+</head>
+<body>
+
+  <a href="/" class="btn-home" title="메인으로">
+    <span class="home-icon">🏠</span>
+    <span class="home-text">메인으로</span>
+  </a>
+
+  <!-- ============ 시작 화면 ============ -->
+  <div id="screen-start" class="screen active">
+    <div class="start-container">
+      <div class="logo-area">
+        <div class="logo-emoji">🔤</div>
+        <h1 class="logo-title">English Game</h1>
+        <p class="logo-sub">~ 영어 실력 쑥쑥! ~</p>
+      </div>
+
+      <h2 class="menu-title">어떤 모드로 할까요?</h2>
+      <div class="mode-grid">
+        <button class="mode-card" onclick="selectMode('en2ko')">
+          <div class="mode-icon">🇺🇸→🇰🇷</div>
+          <div class="mode-name">단어 보고<br>뜻 맞추기</div>
+          <div class="mode-desc">객관식 4지선다</div>
+        </button>
+        <button class="mode-card" onclick="selectMode('ko2en')">
+          <div class="mode-icon">🇰🇷→🇺🇸</div>
+          <div class="mode-name">뜻 보고<br>단어 쓰기</div>
+          <div class="mode-desc">스펠링 직접 입력</div>
+        </button>
+        <button class="mode-card" onclick="selectMode('blank')">
+          <div class="mode-icon">__</div>
+          <div class="mode-name">빈칸<br>채우기</div>
+          <div class="mode-desc">빠진 글자 맞추기</div>
+        </button>
+        <button class="mode-card featured" onclick="selectMode('mix')">
+          <div class="mode-icon">🎲</div>
+          <div class="mode-name">랜덤<br>모드</div>
+          <div class="mode-desc">3가지 다 섞어서!</div>
+        </button>
+      </div>
+
+      <h2 class="menu-title">몇 문제 풀까요?</h2>
+      <div class="count-buttons">
+        <button class="btn-count" onclick="startGame(5)">
+          <span class="count-num">5</span>
+        </button>
+        <button class="btn-count featured" onclick="startGame(10)">
+          <span class="count-num">10</span>
+          <span class="count-badge">추천</span>
+        </button>
+        <button class="btn-count" onclick="startGame(20)">
+          <span class="count-num">20</span>
+        </button>
+      </div>
+
+      <p class="selected-mode" id="selected-mode-text">랜덤 모드 선택됨!</p>
+    </div>
+  </div>
+
+  <!-- ============ 게임 화면 ============ -->
+  <div id="screen-game" class="screen">
+    <div class="game-container">
+      <div class="game-header">
+        <button class="btn-quit" onclick="quitGame()">나가기</button>
+        <div class="progress-info">
+          <span class="progress-current" id="progress-current">1</span>
+          <span class="progress-divider">/</span>
+          <span class="progress-total" id="progress-total">10</span>
+        </div>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+
+      <!-- 문제 카드 -->
+      <div class="question-card" id="question-card">
+        <div class="mode-label" id="mode-label"></div>
+        <div class="question-content" id="question-content">
+          <!-- 모드별 동적 내용 -->
+        </div>
+        <div class="question-sub" id="question-sub"></div>
+      </div>
+
+      <!-- 답안 영역 -->
+      <div class="answer-area" id="answer-area">
+        <!-- 객관식 (모드 1) -->
+        <div class="choice-grid hidden" id="choice-grid"></div>
+
+        <!-- 입력 (모드 2, 3) -->
+        <div class="input-area hidden" id="input-area">
+          <div class="input-row">
+            <input type="text" id="answer-input" class="answer-input"
+              placeholder="답을 적어봐요..." autocomplete="off"
+              autocapitalize="off" spellcheck="false" maxlength="20">
+            <button class="btn-submit" onclick="submitAnswer()">제출</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="feedback-msg" id="feedback-msg"></div>
+
+      <div class="extra-buttons" id="extra-buttons">
+        <button class="btn-hint" id="btn-hint" onclick="useHint()">
+          <span class="hint-icon">💡</span>
+          <span class="hint-label">힌트</span>
+        </button>
+        <button class="btn-show-answer" onclick="giveUp()">🔍 정답 보기</button>
+      </div>
+
+      <!-- 정답 카드 (정답 후 표시) -->
+      <div class="answer-card hidden" id="answer-card">
+        <div class="answer-label" id="answer-label">💖 정답</div>
+        <div class="answer-text" id="answer-text"></div>
+        <button class="btn-next" onclick="nextQuestion()">다음 문제 ▶</button>
+      </div>
+
+      <div class="score-display">
+        <span class="score-item correct">
+          <span class="score-emoji">🎉</span>
+          <span id="correct-count">0</span>
+        </span>
+        <span class="score-item wrong">
+          <span class="score-emoji">😅</span>
+          <span id="wrong-count">0</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 결과 화면 ============ -->
+  <div id="screen-result" class="screen">
+    <div class="result-container">
+      <div class="result-emoji" id="result-emoji">🎉</div>
+      <div class="score-circle">
+        <svg class="score-ring" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="54" stroke="#F0F4F8" stroke-width="10" fill="none"/>
+          <circle id="score-progress" cx="60" cy="60" r="54" stroke="url(#scoreGrad)" stroke-width="10" fill="none"
+            stroke-linecap="round" transform="rotate(-90 60 60)"
+            stroke-dasharray="339.292" stroke-dashoffset="339.292"/>
+          <defs>
+            <linearGradient id="scoreGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#C8B6FF"/>
+              <stop offset="1" stop-color="#FF6B9D"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="score-numbers">
+          <span class="score-correct" id="final-correct">0</span>
+          <span class="score-divider">/</span>
+          <span class="score-total" id="final-total">10</span>
+        </div>
+      </div>
+      <h2 class="result-title" id="result-title"></h2>
+      <p class="result-sub" id="result-sub"></p>
+
+      <div class="result-buttons">
+        <button class="btn-replay" onclick="restartGame()">한 번 더!</button>
+        <button class="btn-other" onclick="location.href='/'">메인으로</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="english-data.js"></script>
+  <script src="english.js"></script>
+</body>
+</html>
