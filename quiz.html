@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="구름냥">
+  <meta name="theme-color" content="#FFE4F1">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <link rel="apple-touch-icon" href="/icon.svg">
+  <title>넌센스 퀴즈 - 구름냥의 게임세상</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="quiz.css">
+</head>
+<body>
+
+  <a href="/" class="btn-home" title="메인으로">
+    <span class="home-icon">🏠</span>
+    <span class="home-text">메인으로</span>
+  </a>
+
+  <!-- ============ 시작 화면 ============ -->
+  <div id="screen-start" class="screen active">
+    <div class="start-container">
+      <div class="logo-area">
+        <div class="logo-emoji">🤔</div>
+        <h1 class="logo-title">넌센스 퀴즈</h1>
+        <p class="logo-sub">~ 머리를 말랑말랑하게! ~</p>
+      </div>
+
+      <h2 class="menu-title">몇 문제 풀어볼까요?</h2>
+      <div class="count-buttons">
+        <button class="btn-count" onclick="startQuiz(5)">
+          <span class="count-num">5</span>
+          <span class="count-label">짧게 ~</span>
+        </button>
+        <button class="btn-count featured" onclick="startQuiz(10)">
+          <span class="count-num">10</span>
+          <span class="count-label">딱 좋아!</span>
+          <span class="count-badge">추천</span>
+        </button>
+        <button class="btn-count" onclick="startQuiz(20)">
+          <span class="count-num">20</span>
+          <span class="count-label">많이 ~</span>
+        </button>
+      </div>
+
+      <div class="info-box">
+        <div class="info-icon">💡</div>
+        <div class="info-text">
+          문제를 읽고 정답을 직접 적어봐요!<br>
+          한 문제당 <strong>3번</strong> 도전할 수 있어요.<br>
+          모르겠으면 <strong>정답 보기</strong>를 눌러도 돼요~
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 게임 화면 ============ -->
+  <div id="screen-game" class="screen">
+    <div class="game-container">
+      <div class="game-header">
+        <button class="btn-quit" onclick="quitGame()">나가기</button>
+        <div class="progress-info">
+          <span class="progress-current" id="progress-current">1</span>
+          <span class="progress-divider">/</span>
+          <span class="progress-total" id="progress-total">10</span>
+        </div>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+
+      <!-- 문제 카드 -->
+      <div class="question-card">
+        <div class="question-label">🎯 문제</div>
+        <div class="question-text" id="question-text"></div>
+      </div>
+
+      <!-- 입력 영역 -->
+      <div class="input-area" id="input-area">
+        <div class="answer-input-row">
+          <input type="text" id="answer-input" class="answer-input"
+            placeholder="정답을 적어봐요..." autocomplete="off" maxlength="30">
+          <button class="btn-submit-answer" id="btn-submit-answer" onclick="submitAnswer()">제출</button>
+        </div>
+        <div class="feedback-msg" id="feedback-msg"></div>
+        <div class="extra-buttons">
+          <button class="btn-hint" id="btn-hint" onclick="useHint()">
+            <span class="hint-icon">💡</span>
+            <span>힌트</span>
+          </button>
+          <button class="btn-show-answer" onclick="giveUp()">
+            🔍 정답 보기
+          </button>
+        </div>
+      </div>
+
+      <!-- 정답 카드 (처음엔 숨김) -->
+      <div class="answer-card hidden" id="answer-card">
+        <div class="answer-label" id="answer-label">💖 정답</div>
+        <div class="answer-text" id="answer-text"></div>
+        <button class="btn-next" onclick="nextQuestion()">다음 문제 ▶</button>
+      </div>
+
+      <!-- 점수 표시 -->
+      <div class="score-display">
+        <span class="score-item correct">
+          <span class="score-emoji">🎉</span>
+          <span id="correct-count">0</span>
+        </span>
+        <span class="score-item wrong">
+          <span class="score-emoji">😅</span>
+          <span id="wrong-count">0</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 결과 화면 ============ -->
+  <div id="screen-result" class="screen">
+    <div class="result-container">
+      <div class="result-emoji" id="result-emoji">🎉</div>
+      <div class="score-circle">
+        <svg class="score-ring" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="54" stroke="#F0F4F8" stroke-width="10" fill="none"/>
+          <circle id="score-progress" cx="60" cy="60" r="54" stroke="url(#scoreGrad)" stroke-width="10" fill="none"
+            stroke-linecap="round" transform="rotate(-90 60 60)"
+            stroke-dasharray="339.292" stroke-dashoffset="339.292"/>
+          <defs>
+            <linearGradient id="scoreGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#FFD93D"/>
+              <stop offset="1" stop-color="#FF6B9D"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="score-numbers">
+          <span class="score-correct" id="final-correct">0</span>
+          <span class="score-divider">/</span>
+          <span class="score-total" id="final-total">10</span>
+        </div>
+      </div>
+      <h2 class="result-title" id="result-title"></h2>
+      <p class="result-sub" id="result-sub"></p>
+
+      <div class="result-buttons">
+        <button class="btn-replay" onclick="restartGame()">한 번 더!</button>
+        <button class="btn-other" onclick="location.href='/'">메인으로</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="quiz-data.js"></script>
+  <script src="quiz.js"></script>
+</body>
+</html>

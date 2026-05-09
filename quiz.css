@@ -1,0 +1,735 @@
+/* ===== Reset & Base ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-pink: #FFE4F1;
+  --bg-blue: #C5E8FF;
+  --card: #FFFFFF;
+  --card-shadow: 0 8px 24px rgba(180, 200, 230, 0.35);
+  --primary: #FF6B9D;
+  --primary-light: #FFB6C8;
+  --primary-dark: #E04F85;
+  --secondary: #5BA8E0;
+  --accent: #FFD93D;
+  --accent-soft: #FFF1A3;
+  --mint: #A8E6CF;
+  --mint-dark: #4DA989;
+  --lavender: #C8B6FF;
+  --orange: #FFB347;
+  --text: #2C3E50;
+  --text-light: #6B8AAA;
+  --text-muted: #A8B5C5;
+  --border: #E5EEF7;
+  --danger: #FF6B6B;
+}
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: linear-gradient(180deg, var(--bg-pink) 0%, var(--bg-blue) 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+body::before, body::after {
+  content: '';
+  position: fixed;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 100px;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(2px);
+}
+body::before {
+  width: 100px; height: 30px;
+  top: 8%; left: 5%;
+  box-shadow: 20px -15px 0 -2px rgba(255,255,255,0.5), 50px -8px 0 0 rgba(255,255,255,0.5);
+  animation: cloudFloat 25s ease-in-out infinite;
+}
+body::after {
+  width: 80px; height: 25px;
+  bottom: 12%; right: 6%;
+  box-shadow: 18px -12px 0 -2px rgba(255,255,255,0.5), 40px -6px 0 0 rgba(255,255,255,0.5);
+  animation: cloudFloat 30s ease-in-out infinite reverse;
+}
+@keyframes cloudFloat {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-20px) translateX(15px); }
+}
+
+.btn-home {
+  position: fixed;
+  top: max(1rem, env(safe-area-inset-top));
+  left: 1rem;
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.5rem 1rem 0.5rem 0.8rem;
+  background: var(--card);
+  border-radius: 24px;
+  color: var(--text);
+  text-decoration: none;
+  font-family: 'Jua', sans-serif;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 14px rgba(180, 200, 230, 0.4);
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+.btn-home:hover {
+  border-color: var(--primary-light);
+  background: #FFF5F8;
+  transform: translateY(-2px);
+}
+.home-icon { font-size: 1.05rem; }
+
+body:has(#screen-game.active) .btn-home,
+body:has(#screen-result.active) .btn-home {
+  display: none;
+}
+
+.screen {
+  display: none;
+  min-height: 100dvh;
+  position: relative;
+  z-index: 1;
+  animation: fadeIn 0.4s ease;
+}
+.screen.active {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hidden { display: none !important; }
+
+/* ===== 시작 화면 ===== */
+.start-container {
+  width: 100%;
+  max-width: 540px;
+  padding: max(3rem, env(safe-area-inset-top)) 1.2rem max(2rem, env(safe-area-inset-bottom));
+  text-align: center;
+}
+
+.logo-area { margin-bottom: 1.5rem; }
+
+.logo-emoji {
+  font-size: 4.8rem;
+  display: inline-block;
+  animation: think 2.5s ease-in-out infinite;
+  margin-bottom: 0.3rem;
+}
+@keyframes think {
+  0%, 100% { transform: rotate(-8deg) scale(1); }
+  50% { transform: rotate(8deg) scale(1.1); }
+}
+
+.logo-title {
+  font-family: 'Jua', sans-serif;
+  font-size: 2.6rem;
+  color: var(--orange);
+  text-shadow: 3px 3px 0 white, 4px 4px 0 rgba(255, 179, 71, 0.4);
+  margin-bottom: 0.2rem;
+}
+
+.logo-sub {
+  font-family: 'Gaegu', cursive;
+  font-size: 1.1rem;
+  color: var(--text-light);
+  font-weight: 700;
+}
+
+.menu-title {
+  font-family: 'Jua', sans-serif;
+  font-size: 1.4rem;
+  color: var(--text);
+  margin-bottom: 1.4rem;
+  text-shadow: 2px 2px 0 white;
+}
+
+.count-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.btn-count {
+  background: var(--card);
+  border: 3px solid transparent;
+  border-radius: 24px;
+  padding: 1.4rem 1.2rem;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 100px;
+  box-shadow: var(--card-shadow);
+  position: relative;
+}
+
+.btn-count:hover {
+  border-color: var(--orange);
+  transform: translateY(-6px) rotate(-2deg);
+}
+
+.btn-count.featured {
+  background: linear-gradient(135deg, var(--accent-soft), white);
+  border-color: var(--accent);
+  transform: scale(1.08);
+}
+
+.btn-count.featured:hover {
+  transform: translateY(-6px) scale(1.08) rotate(-2deg);
+}
+
+.count-num {
+  font-family: 'Jua', sans-serif;
+  font-size: 2.5rem;
+  color: var(--orange);
+  line-height: 1;
+}
+
+.count-label {
+  font-family: 'Gaegu', cursive;
+  font-size: 0.95rem;
+  color: var(--text-light);
+  font-weight: 700;
+}
+
+.count-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: var(--primary);
+  color: white;
+  font-family: 'Jua', sans-serif;
+  font-size: 0.7rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+.info-box {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  text-align: left;
+  box-shadow: var(--card-shadow);
+}
+
+.info-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.info-text {
+  font-family: 'Gaegu', cursive;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+.info-text strong {
+  color: var(--primary);
+}
+
+/* ===== 게임 화면 ===== */
+#screen-game.active {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.game-container {
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  padding: max(1rem, env(safe-area-inset-top)) 1rem max(1rem, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+.btn-quit {
+  background: var(--card);
+  border: 2px solid transparent;
+  padding: 0.4rem 0.9rem;
+  border-radius: 18px;
+  font-family: 'Gaegu', cursive;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 3px 10px rgba(180, 200, 230, 0.3);
+}
+.btn-quit:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+  background: #FFF0F0;
+}
+
+.progress-info {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: 'Jua', sans-serif;
+}
+
+.progress-current {
+  font-size: 1.7rem;
+  color: var(--primary);
+}
+
+.progress-divider {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+}
+
+.progress-total {
+  font-size: 1.2rem;
+  color: var(--text-light);
+}
+
+.progress-bar {
+  height: 8px;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(180, 200, 230, 0.3);
+  margin-bottom: 1.2rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--orange), var(--primary));
+  border-radius: 8px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%;
+}
+
+/* 문제 카드 */
+.question-card {
+  background: var(--card);
+  border-radius: 24px;
+  padding: 1.8rem 1.5rem;
+  box-shadow: var(--card-shadow);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  animation: cardPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.question-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--accent), var(--orange), var(--primary));
+}
+
+@keyframes cardPop {
+  from { transform: scale(0.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.question-label {
+  font-family: 'Gaegu', cursive;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+
+.question-text {
+  font-family: 'Jua', sans-serif;
+  font-size: 1.45rem;
+  color: var(--text);
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+/* 정답 카드 */
+.answer-card {
+  background: linear-gradient(135deg, #FFF5F8, #FFE4F1);
+  border: 3px solid var(--primary-light);
+  border-radius: 24px;
+  padding: 1.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  animation: answerReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes answerReveal {
+  from { transform: scale(0.7) rotate(-5deg); opacity: 0; }
+  to { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+.answer-label {
+  font-family: 'Gaegu', cursive;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 0.5rem;
+}
+
+.answer-text {
+  font-family: 'Jua', sans-serif;
+  font-size: 1.8rem;
+  color: var(--primary);
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+/* 입력 영역 */
+.input-area {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.input-area.hidden {
+  display: none;
+}
+
+.answer-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.answer-input {
+  flex: 1;
+  padding: 1rem 1.1rem;
+  border: 3px solid var(--border);
+  border-radius: 16px;
+  font-size: 1.2rem;
+  font-family: 'Jua', sans-serif;
+  outline: none;
+  background: white;
+  color: var(--text);
+  transition: all 0.2s;
+}
+
+.answer-input:focus {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 4px rgba(255, 179, 71, 0.15);
+}
+
+.answer-input.shake {
+  animation: shakeX 0.4s;
+  border-color: var(--secondary);
+}
+
+@keyframes shakeX {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-7px); }
+  40% { transform: translateX(7px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+.btn-submit-answer {
+  padding: 0.9rem 1.4rem;
+  background: linear-gradient(135deg, var(--accent), var(--orange));
+  color: var(--text);
+  border: none;
+  border-radius: 16px;
+  font-family: 'Jua', sans-serif;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(255, 179, 71, 0.35);
+  white-space: nowrap;
+}
+
+.btn-submit-answer:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 179, 71, 0.45);
+}
+
+.feedback-msg {
+  min-height: 1.4rem;
+  text-align: center;
+  font-family: 'Gaegu', cursive;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+
+.feedback-msg.success { color: var(--mint-dark); }
+.feedback-msg.error { color: var(--secondary); }
+
+.extra-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-hint,
+.btn-show-answer {
+  flex: 1;
+  padding: 0.7rem;
+  border-radius: 14px;
+  font-family: 'Jua', sans-serif;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.btn-hint {
+  background: var(--accent-soft);
+  color: #B8860B;
+  border: 2px solid var(--accent);
+}
+
+.btn-hint:hover:not(:disabled) {
+  background: var(--accent);
+  color: var(--text);
+  transform: translateY(-2px);
+}
+
+.btn-hint:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.hint-icon { font-size: 1.05rem; }
+
+.btn-show-answer {
+  background: white;
+  color: var(--text-light);
+  border: 2px dashed var(--border);
+}
+
+.btn-show-answer:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+  background: var(--accent-soft);
+}
+
+/* 힌트 메시지 (피드백과 별도) */
+.feedback-msg.hint {
+  color: #B8860B;
+  background: var(--accent-soft);
+  padding: 0.5rem 0.8rem;
+  border-radius: 12px;
+  font-family: 'Jua', sans-serif;
+  letter-spacing: 0.05em;
+}
+
+.btn-next {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.9rem;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-family: 'Jua', sans-serif;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(255, 107, 157, 0.3);
+}
+
+.btn-next:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 107, 157, 0.4);
+}
+
+/* 정답 카드는 자동으로 마진 차지 */
+.answer-card {
+  margin-top: auto;
+}
+
+/* 점수 표시 */
+.score-display {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 1rem;
+  padding: 0.6rem;
+}
+
+.score-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Jua', sans-serif;
+  font-size: 1.1rem;
+  background: white;
+  padding: 0.4rem 1rem;
+  border-radius: 18px;
+  box-shadow: 0 3px 8px rgba(180, 200, 230, 0.25);
+}
+
+.score-emoji { font-size: 1.2rem; }
+
+.score-item.correct { color: var(--mint-dark); }
+.score-item.wrong { color: var(--secondary); }
+
+/* ===== 결과 화면 ===== */
+.result-container {
+  text-align: center;
+  width: 92%;
+  max-width: 460px;
+  background: var(--card);
+  border-radius: 28px;
+  padding: 2.5rem 1.8rem;
+  margin: 1.5rem auto;
+  box-shadow: var(--card-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.result-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(90deg, var(--accent), var(--orange), var(--primary), var(--lavender));
+}
+
+.result-emoji {
+  font-size: 4rem;
+  animation: bounce 1.2s ease infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(8deg); }
+}
+
+.score-circle {
+  position: relative;
+  width: 170px;
+  height: 170px;
+  margin: 0.8rem auto 1rem;
+}
+
+.score-ring { width: 100%; height: 100%; }
+
+#score-progress {
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.score-numbers {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Jua', sans-serif;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.score-correct {
+  font-size: 3rem;
+  color: var(--primary);
+}
+
+.score-divider, .score-total {
+  font-size: 1.5rem;
+  color: var(--text-light);
+}
+
+.result-title {
+  font-family: 'Jua', sans-serif;
+  font-size: 1.8rem;
+  color: var(--text);
+  margin: 0.5rem 0 0.3rem;
+}
+
+.result-sub {
+  font-family: 'Gaegu', cursive;
+  font-size: 1.05rem;
+  color: var(--text-light);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.result-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-replay,
+.btn-other {
+  padding: 0.85rem 1.4rem;
+  border: none;
+  border-radius: 18px;
+  font-family: 'Jua', sans-serif;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-replay {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 107, 157, 0.3);
+}
+
+.btn-replay:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 107, 157, 0.4);
+}
+
+.btn-other {
+  background: var(--card);
+  color: var(--text-light);
+  border: 2px solid var(--border);
+}
+
+.btn-other:hover {
+  border-color: var(--secondary);
+  color: var(--secondary);
+  background: #F0F8FF;
+}
+
+/* 모바일 */
+@media (max-width: 480px) {
+  .logo-emoji { font-size: 4rem; }
+  .logo-title { font-size: 2.2rem; }
+  .count-buttons { gap: 8px; }
+  .btn-count { min-width: 90px; padding: 1.2rem 0.8rem; }
+  .count-num { font-size: 2.2rem; }
+  .question-text { font-size: 1.25rem; }
+  .answer-text { font-size: 1.55rem; }
+  .question-card { padding: 1.5rem 1.2rem; }
+  .score-circle { width: 150px; height: 150px; }
+  .score-correct { font-size: 2.6rem; }
+}
